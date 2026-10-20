@@ -1,0 +1,65 @@
+### 查列表
+GET http://localhost:8080/api/events
+
+### 查详情
+GET http://localhost:8080/api/events/1
+
+### 查一个不存在的
+GET http://localhost:8080/api/events/999
+
+### 新建活动
+POST http://localhost:8080/api/events
+Content-Type: application/json
+
+{
+  "name": "HTTP 文件测试",
+  "description": "用 .http 发的",
+  "totalStock": 100,
+  "availableStock": 100,
+  "startTime": "2026-11-01T19:00:00",
+  "endTime": "2026-11-01T21:00:00"
+}
+
+### 更新活动（PUT 是整体替换，字段要写全）
+PUT http://localhost:8080/api/events/6
+Content-Type: application/json
+
+{
+  "name": "改过名字了",
+  "description": "updated",
+  "totalStock": 30,
+  "availableStock": 30,
+  "startTime": "2026-11-01T19:00:00",
+  "endTime": "2026-11-01T21:00:00"
+}
+
+### 删除活动
+DELETE http://localhost:8080/api/events/6
+
+### 创建活动 - 校验失败用例
+POST http://localhost:8080/api/events
+Content-Type: application/json
+
+{
+  "name": "校验测试",
+  "description": "totalStock 为 0",
+  "totalStock": 0,
+  "availableStock": 0,
+  "startTime": "2026-12-01T19:00:00",
+  "endTime": "2026-12-01T21:00:00"
+}
+
+### 分页 - 第1页
+GET http://localhost:8080/api/events?page=1&size=2
+
+### 分页 - 第3页（最后一页）
+GET http://localhost:8080/api/events?page=3&size=2
+
+### 分页 - 第4页（超出范围）
+GET http://localhost:8080/api/events?page=4&size=2
+
+### 分页 - size 超上限（应被压到 100）
+GET http://localhost:8080/api/events?page=1&size=1000
+
+### 分页 - page 非法（应被纠正为 1）
+GET http://localhost:8080/api/events?page=0&size=2
